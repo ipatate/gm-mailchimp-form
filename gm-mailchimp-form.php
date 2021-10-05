@@ -31,11 +31,11 @@ $VERSION = '0.0.1';
  *
  */ function load_textdomain()
 {
-	load_plugin_textdomain(
-		'gm-mailchimp-form',
-		false,
-		basename(dirname(__FILE__)) . '/languages'
-	);
+  load_plugin_textdomain(
+    'gm-mailchimp-form',
+    false,
+    basename(dirname(__FILE__)) . '/languages'
+  );
 }
 
 /**
@@ -43,7 +43,7 @@ $VERSION = '0.0.1';
  */
 function set_script_translations()
 {
-	wp_set_script_translations('gm-mailchimp-form', 'gm-mailchimp-form', plugin_dir_path(__FILE__) . 'languages');
+  wp_set_script_translations('gm-mailchimp-form', 'gm-mailchimp-form', plugin_dir_path(__FILE__) . 'languages');
 }
 
 add_action('init', __NAMESPACE__ . '\load_textdomain');
@@ -54,9 +54,9 @@ add_action('init', __NAMESPACE__ . '\set_script_translations');
  */
 function block_init()
 {
-	register_block_type_from_metadata(__DIR__, [
-		"render_callback" => __NAMESPACE__ . '\includes\renderCallback\render_callback',
-	]);
+  register_block_type_from_metadata(__DIR__, [
+    "render_callback" => __NAMESPACE__ . '\includes\renderCallback\render_callback',
+  ]);
 }
 add_action('init', __NAMESPACE__ . '\block_init');
 
@@ -65,14 +65,14 @@ add_action('init', __NAMESPACE__ . '\block_init');
  * add api endpoint
  */
 add_action(
-	'rest_api_init',
-	function () {
-		register_rest_route('gm_mailchimp_form', '/action', array(
-			'methods' => 'POST',
-			'permission_callback' => '__return_true',
-			'callback' => 'GMMailchimpForm\includes\form\form_callback'
-		));
-	}
+  'rest_api_init',
+  function () {
+    register_rest_route('gm_mailchimp_form', '/action', array(
+      'methods' => 'POST',
+      'permission_callback' => '__return_true',
+      'callback' => 'GMMailchimpForm\includes\form\form_callback'
+    ));
+  }
 );
 
 
@@ -81,10 +81,10 @@ add_action(
  * add script if block is in content
  */
 add_action('wp_enqueue_scripts', function () use ($PLUGIN_NAME, $VERSION) {
-	$id = get_the_ID();
-	if (has_block('goodmotion/block-gm-mailchimp-form', $id)) {
-		// add script only if shortcode is used
-		$path = plugins_url() . '/' . $PLUGIN_NAME;
-		wp_enqueue_script($PLUGIN_NAME, $path . '/assets/scripts.js', array(), $VERSION, true);
-	}
+  $id = get_the_ID();
+  if (has_block('goodmotion/block-gm-mailchimp-form', $id)) {
+    // add script only if shortcode is used
+    $path = plugins_url() . '/' . $PLUGIN_NAME;
+    wp_enqueue_script($PLUGIN_NAME, $path . '/assets/scripts.js', array(), $VERSION, true);
+  }
 });

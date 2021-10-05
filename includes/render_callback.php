@@ -4,9 +4,9 @@ namespace GMMailchimpForm\includes\renderCallback;
 
 function render_callback($attributes, $content)
 {
-	$token = \GMMailchimpForm\includes\token\getToken();
+  $token = \GMMailchimpForm\includes\token\getToken();
 
-	return 	'<script type="text/javascript">
+  return     '<script type="text/javascript">
 	var gmMailchimpFormSuccessMessage =
 		"' .   __("You are subscribed to the list of newsletters. Thank you", "gm-mailchimp-form")  . ' ";
 	var gmMailchimpFormErrorMessageAlreadySubsribed =
@@ -31,7 +31,7 @@ function render_callback($attributes, $content)
 		</label>
 		<label for="accept" class="inline-field"
 			><span>' .
-		__("You agree to subscribe to our newsletter", "gm-mailchimp-form")  . ' </span>
+    __("You agree to subscribe to our newsletter", "gm-mailchimp-form")  . ' </span>
 			<input type="checkbox" name="accept" id="accept" required />
 		</label>
 		<label for="beer" class="inline-field beer-field"
