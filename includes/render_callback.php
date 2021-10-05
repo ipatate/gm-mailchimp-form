@@ -21,13 +21,13 @@ function render_callback($attributes, $content)
 			>' .   __("Email", "gm-mailchimp-form")  . '
 			<input type="email" name="email" id="email" value="" required />
 		</label>
+    <label for="lastname"
+      >' .   __("Lastname", "gm-mailchimp-form")  . '
+      <input type="text" name="lastname" id="lastname" value="" required />
+    </label>
 		<label for="firstname"
 			>' .   __("Firstname", "gm-mailchimp-form")  . '
 			<input type="text" name="firstname" id="firstname" value="" required />
-		</label>
-		<label for="lastname"
-			>' .   __("Lastname", "gm-mailchimp-form")  . '
-			<input type="text" name="lastname" id="lastname" value="" required />
 		</label>
 		<label for="accept" class="inline-field"
 			><span>' .
