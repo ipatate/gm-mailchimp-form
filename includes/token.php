@@ -1,6 +1,6 @@
 <?php
 
-namespace GMMailchimpForm\token;
+namespace GMMailchimpForm\includes\token;
 
 /**
  * get the name of the token

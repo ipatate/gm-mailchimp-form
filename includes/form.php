@@ -1,6 +1,6 @@
 <?php
 
-namespace GMMailchimpForm\form;
+namespace GMMailchimpForm\includes\form;
 
 require_once(dirname(__FILE__) . '/token.php');
 
@@ -9,7 +9,7 @@ require_once(dirname(__FILE__) . '/token.php');
  */
 function form_callback(\WP_REST_Request $request)
 {
-	$tokenReal = \GMMailchimpForm\token\getToken();
+	$tokenReal = \GMMailchimpForm\includes\token\getToken();
 	// get token from form
 	$token =  $request->get_param('token');
 	// if robot, beer is not null

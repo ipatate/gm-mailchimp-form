@@ -1,0 +1,60 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Gm Mailchimp Form\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-10-05 08:59+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.5.4; wp-5.8.2-alpha-51861\n"
+"X-Domain: gm-mailchimp-form"
+
+#. Author of the plugin
+msgid "Faramaz Patrick <infos@goodmotion.fr>"
+msgstr ""
+
+#. Name of the plugin
+msgid "Gm Mailchimp Form"
+msgstr ""
+
+#. Description of the plugin
+msgid ""
+"This plugin allows you to display a Block for newsletter form subscription."
+msgstr ""
+
+msgid "You are subscribed to the list of newsletters. Thank you"
+msgstr ""
+
+msgid "Oh ! A user already exist with this email 😱"
+msgstr ""
+
+msgid "This email was deleted from list and it's not possible to resubscribe 😱"
+msgstr ""
+
+
+msgid "Email"
+msgstr ""
+
+
+msgid "Firstname"
+msgstr ""
+
+
+msgid "Lastname"
+msgstr ""
+
+msgid "You agree to subscribe to our newsletter"
+msgstr ""
+
+msgid "Don't check this box, it's for robot"
+msgstr ""
+
+msgid "Subscribe"
+msgstr ""

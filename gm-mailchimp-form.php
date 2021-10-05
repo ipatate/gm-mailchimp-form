@@ -16,13 +16,38 @@ namespace GMMailchimpForm;
  * @package           goodmotion
  */
 
-require_once(dirname(__FILE__) . '/rest/form.php');
-require_once(dirname(__FILE__) . '/options/config_panel.php');
-require_once(dirname(__FILE__) . '/rest/token.php');
+require_once(dirname(__FILE__) . '/includes/form.php');
+require_once(dirname(__FILE__) . '/includes/config_panel.php');
+require_once(dirname(__FILE__) . '/includes/token.php');
+require_once(dirname(__FILE__) . '/includes/render_callback.php');
+
 
 $PLUGIN_NAME = 'gm-mailchimp-form';
 $VERSION = '0.0.1';
 
+
+/**
+ * Load the plugin text domain for translation.
+ *
+ */ function load_textdomain()
+{
+	load_plugin_textdomain(
+		'gm-mailchimp-form',
+		false,
+		dirname(dirname(plugin_basename(__FILE__))) . '/languages/'
+	);
+}
+
+/**
+ * load translations
+ */
+function set_script_translations()
+{
+	wp_set_script_translations('gm-mailchimp-form', 'gm-mailchimp-form', plugin_dir_path(__FILE__) . 'languages');
+}
+
+add_action('init', __NAMESPACE__ . '\load_textdomain');
+add_action('init', __NAMESPACE__ . '\set_script_translations');
 
 /**
  * block registration
@@ -30,18 +55,10 @@ $VERSION = '0.0.1';
 function block_init()
 {
 	register_block_type_from_metadata(__DIR__, [
-		"render_callback" => __NAMESPACE__ . '\render_callback',
+		"render_callback" => __NAMESPACE__ . '\includes\renderCallback\render_callback',
 	]);
 }
 add_action('init', __NAMESPACE__ . '\block_init');
-
-
-function render_callback($attributes, $content)
-{
-	$context['token'] = token\getToken();
-	// render template
-	return \Timber::compile('blocks/form.twig', $context);
-}
 
 
 /**
@@ -53,7 +70,7 @@ add_action(
 		register_rest_route('gm_mailchimp_form', '/action', array(
 			'methods' => 'POST',
 			'permission_callback' => '__return_true',
-			'callback' => 'GMMailchimpForm\form\form_callback'
+			'callback' => 'GMMailchimpForm\includes\form\form_callback'
 		));
 	}
 );

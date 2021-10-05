@@ -1,6 +1,6 @@
 <?php
 
-namespace GMMailchimpForm\options;
+namespace GMMailchimpForm\includes\options;
 
 
 function register_settings()
