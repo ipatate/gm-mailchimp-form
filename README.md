@@ -1,0 +1,3 @@
+# Simple plugin WordPress for display a Gutenberg Block Mailchimp Form subscription
+
+...
