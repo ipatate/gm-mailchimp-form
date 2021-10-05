@@ -34,7 +34,7 @@ $VERSION = '0.0.1';
 	load_plugin_textdomain(
 		'gm-mailchimp-form',
 		false,
-		dirname(dirname(plugin_basename(__FILE__))) . '/languages/'
+		basename(dirname(__FILE__)) . '/languages'
 	);
 }
 
