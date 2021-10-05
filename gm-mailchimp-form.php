@@ -82,7 +82,6 @@ add_action(
  */
 add_action('wp_enqueue_scripts', function () use ($PLUGIN_NAME, $VERSION) {
 	$id = get_the_ID();
-	var_dump(has_block('goodmotion/block-gm-mailchimp-form', $id));
 	if (has_block('goodmotion/block-gm-mailchimp-form', $id)) {
 		// add script only if shortcode is used
 		$path = plugins_url() . '/' . $PLUGIN_NAME;
