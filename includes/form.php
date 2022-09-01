@@ -28,10 +28,10 @@ function form_callback(\WP_REST_Request $request)
   $postData = array(
     "email_address" => sanitize_email($request->get_param('email')),
     "status" => "subscribed",
-    "merge_fields" => array(
-      "FNAME" => sanitize_text_field($request->get_param('firstname')),
-      "LNAME" => sanitize_text_field($request->get_param('lastname'))
-    )
+    // "merge_fields" => array(
+    //   "FNAME" => sanitize_text_field($request->get_param('firstname')),
+    //   "LNAME" => sanitize_text_field($request->get_param('lastname'))
+    // )
   );
 
   // Setup cURL
@@ -68,4 +68,11 @@ function form_callback(\WP_REST_Request $request)
     'error' => false,
     'message' => 'USER_ADDED'
   ];
+}
+
+
+function get_token(\WP_REST_Request $request)
+{
+  $tokenReal = \GMMailchimpForm\includes\token\getToken();
+  return ['token' => $tokenReal];
 }

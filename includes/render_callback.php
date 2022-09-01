@@ -16,19 +16,19 @@ function render_callback($attributes, $content)
 </script>
 <div class="gm-mailchimp-form">
 	<form action="#" id="gm-mailchimp-form">
-		<input type="hidden" name="token" value="' .  $token  . '" />
+		<input type="hidden" name="token" value="" />
 		<label for="email"
 			>' .   __("Email", "gm-mailchimp-form")  . '
 			<input type="email" name="email" id="email" value="" required />
 		</label>
-    <label for="lastname"
+    <!--<label for="lastname"
       >' .   __("Lastname", "gm-mailchimp-form")  . '
       <input type="text" name="lastname" id="lastname" value="" required />
     </label>
 		<label for="firstname"
 			>' .   __("Firstname", "gm-mailchimp-form")  . '
 			<input type="text" name="firstname" id="firstname" value="" required />
-		</label>
+		</label>-->
 		<label for="accept" class="inline-field"
 			><span>' .
     __("You agree to subscribe to our newsletter", "gm-mailchimp-form")  . ' </span>
@@ -36,7 +36,7 @@ function render_callback($attributes, $content)
 		</label>
 		<label for="beer" class="inline-field beer-field"
 			>' .   __("Don't check this box, it's for robot", "gm-mailchimp-form")  . '
-			<input type="checkbox" name="beer" />
+			<input type="checkbox" name="beer" id="beer" />
 		</label>
 		<input
 			type="submit"

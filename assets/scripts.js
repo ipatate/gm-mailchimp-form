@@ -34,69 +34,82 @@ document.addEventListener('DOMContentLoaded', function () {
       e.currentTarget.classList.add('gm-mailchimp-form-status-hidden')
     })
 
-  document
-    .getElementById('gm-mailchimp-form')
-    .addEventListener('submit', function (e) {
-      e.preventDefault()
-      var button = document.getElementById('gm-mailchimp-form-submit')
-      var form = e.currentTarget
-      // input filled
-      if (
-        form.email.value !== '' &&
-        form.lastname.value !== '' &&
-        form.firstname.value !== '' &&
-        form.accept.value !== '' &&
-        isEmail(form.email.value)
-      ) {
-        var request = new XMLHttpRequest()
-        request.onreadystatechange = function () {
-          button.setAttribute('disabled', 'true')
-          if (this.readyState == 4 && this.status == 200) {
-            var res = JSON.parse(this.responseText)
-            // error
-            if (res.error) {
-              // show wrapper modal
-              showModal(
-                'gm-mailchimp-form-status',
-                'gm-mailchimp-form-status-hidden',
-              )
-              // show message error
-              showModal(
-                'gm-mailchimp-form-error',
-                'gm-mailchimp-form-modal-hidden',
-              )
-              // user exist or delected
-              var message =
-                res.message === 'USER_EXIST'
-                  ? gmMailchimpFormErrorMessageAlreadySubsribed
-                  : gmMailchimpFormErrorMessageDeleted
-              button.removeAttribute('disabled')
+  // token request ajax
+  var tokenRequest = new XMLHttpRequest()
+  tokenRequest.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      var res = JSON.parse(this.responseText)
+      var form = document.getElementById('gm-mailchimp-form')
+      form.token.value = res.token
+    }
+  }
+  tokenRequest.open('GET', '/wp-json/gm_mailchimp_form/getToken')
+  var form = document.getElementById('gm-mailchimp-form')
+  form.email.addEventListener('focus', function (e) {
+    tokenRequest.send()
+  })
 
-              return (document.querySelector(
-                '.gm-mailchimp-form-error span.gm-message',
-              ).innerHTML = message)
-            }
-            // success
+  form.addEventListener('submit', function (e) {
+    e.preventDefault()
+    var form = e.currentTarget
+    var button = form.querySelector('#gm-mailchimp-form-submit')
+    // input filled
+    if (
+      form.email.value !== '' &&
+      // form.lastname.value !== '' &&
+      // form.firstname.value !== '' &&
+      form.accept.value !== '' &&
+      isEmail(form.email.value)
+    ) {
+      var request = new XMLHttpRequest()
+      request.onreadystatechange = function () {
+        button.setAttribute('disabled', 'true')
+        if (this.readyState == 4 && this.status == 200) {
+          var res = JSON.parse(this.responseText)
+          // error
+          if (res.error) {
             // show wrapper modal
             showModal(
               'gm-mailchimp-form-status',
               'gm-mailchimp-form-status-hidden',
             )
-            // show success message
+            // show message error
             showModal(
-              'gm-mailchimp-form-success',
+              'gm-mailchimp-form-error',
               'gm-mailchimp-form-modal-hidden',
             )
-            form.reset()
+            // user exist or delected
+            var message =
+              res.message === 'USER_EXIST'
+                ? gmMailchimpFormErrorMessageAlreadySubsribed
+                : gmMailchimpFormErrorMessageDeleted
             button.removeAttribute('disabled')
-            return (document.querySelector(
-              '.gm-mailchimp-form-success span.gm-message',
-            ).innerHTML = gmMailchimpFormSuccessMessage)
-          }
-        }
 
-        request.open('POST', '/wp-json/gm_mailchimp_form/action')
-        request.send(new FormData(e.currentTarget))
+            return (document.querySelector(
+              '.gm-mailchimp-form-error span.gm-message',
+            ).innerHTML = message)
+          }
+          // success
+          // show wrapper modal
+          showModal(
+            'gm-mailchimp-form-status',
+            'gm-mailchimp-form-status-hidden',
+          )
+          // show success message
+          showModal(
+            'gm-mailchimp-form-success',
+            'gm-mailchimp-form-modal-hidden',
+          )
+          form.reset()
+          button.removeAttribute('disabled')
+          return (document.querySelector(
+            '.gm-mailchimp-form-success span.gm-message',
+          ).innerHTML = gmMailchimpFormSuccessMessage)
+        }
       }
-    })
+
+      request.open('POST', '/wp-json/gm_mailchimp_form/action')
+      request.send(new FormData(e.currentTarget))
+    }
+  })
 })

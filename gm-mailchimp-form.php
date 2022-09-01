@@ -75,6 +75,20 @@ add_action(
   }
 );
 
+/**
+ * add api endpoint
+ */
+add_action(
+  'rest_api_init',
+  function () {
+    register_rest_route('gm_mailchimp_form', '/getToken', array(
+      'methods' => 'GET',
+      'permission_callback' => '__return_true',
+      'callback' => 'GMMailchimpForm\includes\form\get_token'
+    ));
+  }
+);
+
 
 
 /**
