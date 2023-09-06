@@ -2,7 +2,7 @@
   "apiVersion": 2,
   "name": "goodmotion/block-gm-mailchimp-form",
   "title": "GM Mailchimp Form",
-  "category": "goodmotion-blocks",
+  "category": "common",
   "icon": "columns",
   "description": "Block for display newsletter form subscription",
   "supports": {

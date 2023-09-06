@@ -1,11 +1,11 @@
 <?php
 
-namespace GMMailchimpForm\includes\token;
+namespace GMMailchimpForm\Includes;
 
 /**
  * get the name of the token
  */
-function getNameToken()
+function get_name_token()
 {
   return 'gm-mailchimp-token';
 }
@@ -13,19 +13,13 @@ function getNameToken()
 /**
  * generate, save and return a token
  */
-function getToken()
+function get_token()
 {
   $token = openssl_random_pseudo_bytes(16);
   //Convert the binary data into hexadecimal representation.
-  $_SESSION[getNameToken()] = $_SESSION[getNameToken()] ?? bin2hex($token);
-  return $_SESSION[getNameToken()];
+  if(get_transient(get_name_token()) === false){
+    set_transient(get_name_token(), bin2hex($token), 60 * 60 * 24);
+  }
+  return get_transient(get_name_token());
 }
 
-/**
- * init session
- */
-add_action('init', function () {
-  if (!session_id()) {
-    session_start();
-  }
-});

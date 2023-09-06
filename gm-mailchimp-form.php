@@ -16,10 +16,10 @@ namespace GMMailchimpForm;
  * @package           goodmotion
  */
 
-require_once(dirname(__FILE__) . '/includes/form.php');
+require_once( dirname( __FILE__ ) . '/includes/rest.php' );
 require_once(dirname(__FILE__) . '/includes/config_panel.php');
 require_once(dirname(__FILE__) . '/includes/token.php');
-require_once(dirname(__FILE__) . '/includes/render_callback.php');
+require_once( dirname( __FILE__ ) . '/includes/form.php' );
 
 
 $PLUGIN_NAME = 'gm-mailchimp-form';
@@ -55,7 +55,7 @@ add_action('init', __NAMESPACE__ . '\set_script_translations');
 function block_init()
 {
   register_block_type_from_metadata(__DIR__, [
-    "render_callback" => __NAMESPACE__ . '\includes\renderCallback\render_callback',
+    "render_callback" => __NAMESPACE__ . '\Includes\render_callback',
   ]);
 }
 add_action('init', __NAMESPACE__ . '\block_init');
@@ -70,7 +70,7 @@ add_action(
     register_rest_route('gm_mailchimp_form', '/action', array(
       'methods' => 'POST',
       'permission_callback' => '__return_true',
-      'callback' => 'GMMailchimpForm\includes\form\form_callback'
+      'callback' => 'GMMailchimpForm\Includes\form_callback'
     ));
   }
 );
@@ -84,7 +84,7 @@ add_action(
     register_rest_route('gm_mailchimp_form', '/getToken', array(
       'methods' => 'GET',
       'permission_callback' => '__return_true',
-      'callback' => 'GMMailchimpForm\includes\form\get_token'
+      'callback' => 'GMMailchimpForm\Includes\get_token_request'
     ));
   }
 );

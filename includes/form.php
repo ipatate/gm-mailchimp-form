@@ -1,78 +1,66 @@
 <?php
 
-namespace GMMailchimpForm\includes\form;
+namespace GMMailchimpForm\Includes;
 
-require_once(dirname(__FILE__) . '/token.php');
-
-/**
- * REST route for form submission.
- */
-function form_callback(\WP_REST_Request $request)
+function render_callback(): string
 {
-  $tokenReal = \GMMailchimpForm\includes\token\getToken();
-  // get token from form
-  $token =  $request->get_param('token');
-  // if robot, beer is not null
-  $trap =  $request->get_param('beer');
-  if ($token !== $tokenReal || $trap !== null) {
-    return new \WP_Error('invalid_token', 'Invalid token', array('status' => 403));
-  }
+  $token = \GMMailchimpForm\Includes\get_token();
 
-  // options for mailchimp
-  $list_id =  get_option('gm_mailchimp_form_list_id');
-  $authToken = get_option('gm_mailchimp_form_token');
-  $url = get_option('gm_mailchimp_form_url');
-
-
-  // data to save
-  $postData = array(
-    "email_address" => sanitize_email($request->get_param('email')),
-    "status" => "subscribed",
-    // "merge_fields" => array(
-    //   "FNAME" => sanitize_text_field($request->get_param('firstname')),
-    //   "LNAME" => sanitize_text_field($request->get_param('lastname'))
-    // )
-  );
-
-  // Setup cURL
-  $ch = curl_init($url . '/lists/' . $list_id . '/members/');
-  curl_setopt_array($ch, array(
-    CURLOPT_POST => TRUE,
-    CURLOPT_RETURNTRANSFER => TRUE,
-    CURLOPT_HTTPHEADER => array(
-      'Authorization: apikey ' . $authToken,
-      'Content-Type: application/json'
-    ),
-    CURLOPT_POSTFIELDS => json_encode($postData)
-  ));
-
-  // Send the request
-  $response = curl_exec($ch);
-  // no response
-  if (!$response) {
-    return new \WP_Error('curl_error', curl_error($ch), array('status' => 500));
-  }
-
-  // decode response
-  $res = json_decode($response);
-  // email already exist
-  if ($res && property_exists($res, 'title')) {
-    return [
-      'error' => true,
-      'message' => $res->title === 'Forgotten Email Not Subscribed' ? 'USER_DELETED' : 'USER_EXIST'
-    ];
-  }
-
-  // ok :)
-  return [
-    'error' => false,
-    'message' => 'USER_ADDED'
-  ];
-}
-
-
-function get_token(\WP_REST_Request $request)
-{
-  $tokenReal = \GMMailchimpForm\includes\token\getToken();
-  return ['token' => $tokenReal];
+  return     '<script type="text/javascript">
+	var gmMailchimpFormSuccessMessage =
+		"' .   __("You are subscribed to the list of newsletters. Thank you", "gm-mailchimp-form")  . ' ";
+	var gmMailchimpFormErrorMessageAlreadySubsribed =
+		"' .   __("Oh ! A user already exist with this email 😱", "gm-mailchimp-form")  . ' ";
+	var gmMailchimpFormErrorMessageDeleted =
+		"' .   __("This email was deleted from list and it's not possible to resubscribe 😱", "gm-mailchimp-form")  . ' ";
+</script>
+<div class="gm-mailchimp-form">
+	<form action="#" id="gm-mailchimp-form">
+		<input type="hidden" name="token" value="" />
+		<label for="email"
+			>' .   __("Email", "gm-mailchimp-form")  . '
+			<input type="email" name="email" id="email" value="" required />
+		</label>
+    <!--<label for="lastname"
+      >' .   __("Lastname", "gm-mailchimp-form")  . '
+      <input type="text" name="lastname" id="lastname" value="" required />
+    </label>
+		<label for="firstname"
+			>' .   __("Firstname", "gm-mailchimp-form")  . '
+			<input type="text" name="firstname" id="firstname" value="" required />
+		</label>-->
+		<label for="accept" class="inline-field"
+			><span>' .
+    __("You agree to subscribe to our newsletter", "gm-mailchimp-form")  . ' </span>
+			<input type="checkbox" name="accept" id="accept" required />
+		</label>
+		<label for="beer" class="inline-field beer-field"
+			>' .   __("Don't check this box, it's for robot", "gm-mailchimp-form")  . '
+			<input type="checkbox" name="beer" id="beer" />
+		</label>
+		<input
+			type="submit"
+			id="gm-mailchimp-form-submit"
+			value="' .   __("Subscribe", "gm-mailchimp-form")  . ' "
+		/>
+		<div
+			id="gm-mailchimp-form-status"
+			class="gm-mailchimp-form-status gm-mailchimp-form-status-hidden"
+		>
+			<div
+				id="gm-mailchimp-form-success"
+				class="gm-mailchimp-form-success gm-mailchimp-form-modal gm-mailchimp-form-modal-hidden"
+			>
+				' . file_get_contents(dirname(__FILE__) . "/../assets/check.svg")  . '
+				<span class="gm-message"></span>
+			</div>
+			<div
+				id="gm-mailchimp-form-error"
+				class="gm-mailchimp-form-error gm-mailchimp-form-modal gm-mailchimp-form-modal-hidden"
+			>
+				<span class="gm-message"></span>
+			</div>
+		</div>
+	</form>
+</div>';
 }
