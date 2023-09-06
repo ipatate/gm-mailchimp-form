@@ -18,17 +18,10 @@ function render_callback(): string
 	<form action="#" id="gm-mailchimp-form">
 		<input type="hidden" name="token" value="" />
 		<label for="email"
-			>' .   __("Email", "gm-mailchimp-form")  . '
-			<input type="email" name="email" id="email" value="" required />
+			><span>' .   __("Email", "gm-mailchimp-form")  . '</span>
+			<input type="email" name="email" id="email" value="" placeholder="' . __
+    ("Email", "gm-mailchimp-form"). '" required />
 		</label>
-    <!--<label for="lastname"
-      >' .   __("Lastname", "gm-mailchimp-form")  . '
-      <input type="text" name="lastname" id="lastname" value="" required />
-    </label>
-		<label for="firstname"
-			>' .   __("Firstname", "gm-mailchimp-form")  . '
-			<input type="text" name="firstname" id="firstname" value="" required />
-		</label>-->
 		<label for="accept" class="inline-field"
 			><span>' .
     __("You agree to subscribe to our newsletter", "gm-mailchimp-form")  . ' </span>
@@ -51,7 +44,6 @@ function render_callback(): string
 				id="gm-mailchimp-form-success"
 				class="gm-mailchimp-form-success gm-mailchimp-form-modal gm-mailchimp-form-modal-hidden"
 			>
-				' . file_get_contents(dirname(__FILE__) . "/../assets/check.svg")  . '
 				<span class="gm-message"></span>
 			</div>
 			<div
